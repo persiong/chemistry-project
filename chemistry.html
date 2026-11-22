@@ -150,14 +150,17 @@
     .run-button { width: 100%; min-height: 44px; border: 1px solid var(--cyan); color: var(--bg); background: var(--cyan); font: 700 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
     .run-button:hover { background: var(--lime); border-color: var(--lime); }
 
-    .molecule-stage { position: relative; display: grid; place-items: center; min-height: 220px; margin: 25px 0 18px; overflow: hidden; border: 1px solid #284154; background: radial-gradient(circle at 50% 46%, #153b48, transparent 52%); }
+    .molecule-stage { position: relative; display: grid; place-items: center; min-height: 250px; margin: 25px 0 18px; overflow: hidden; border: 1px solid #284154; background: radial-gradient(circle at 50% 46%, #153b48, transparent 52%); }
     .molecule-stage::before { position: absolute; inset: 0; content: ''; opacity: .25; background: repeating-radial-gradient(circle, transparent 0 34px, #69e4df22 35px 36px); }
-    .molecule { position: relative; width: 255px; height: 175px; }
-    .atom { position: absolute; z-index: 2; display: grid; place-items: center; width: 48px; height: 48px; border: 2px solid var(--cyan); border-radius: 50%; color: var(--text); background: #123342; box-shadow: 0 0 18px #69e4df42; font: 700 15px var(--mono); transition: transform .3s; }
-    .atom:hover { transform: scale(1.15); }
-    .atom::after { position: absolute; top: 50%; left: 50%; width: var(--bond-width, 80px); height: var(--bond-height, 2px); content: ''; z-index: -1; transform: rotate(var(--bond-angle, 0deg)); transform-origin: left center; background: var(--bond-color, #69e4df); box-shadow: 0 0 8px var(--bond-color, #69e4df); }
-    .atom.oxygen { border-color: var(--pink); background: #4b213d; }
-    .atom.nitrogen { border-color: var(--lime); background: #263f2c; }
+    .molecule { position: relative; width: 290px; height: 190px; }
+    .atom { position: absolute; z-index: 2; display: grid; place-items: center; width: 50px; height: 50px; border: 2px solid var(--cyan); border-radius: 50%; color: var(--text); background: #123342; box-shadow: 0 0 18px #69e4df42; font: 700 15px var(--mono); transition: transform .25s, box-shadow .25s; }
+    .atom:hover { transform: scale(1.12); box-shadow: 0 0 26px #69e4df75; }
+    .atom.oxygen { border-color: var(--pink); background: #4b213d; box-shadow: 0 0 18px #ff8fb43f; }
+    .atom.nitrogen { border-color: var(--lime); background: #263f2c; box-shadow: 0 0 18px #c7ef7540; }
+    .bond { position: absolute; z-index: 1; height: 4px; border-radius: 999px; transform-origin: left center; background: linear-gradient(90deg, #69e4df, #c7ef75); box-shadow: 0 0 10px #69e4df75; }
+    .bond.double { height: 3px; background: transparent; box-shadow: none; }
+    .bond.double::before, .bond.double::after { position: absolute; left: 0; width: 100%; height: 3px; content: ''; border-radius: inherit; background: linear-gradient(90deg, #69e4df, #c7ef75); box-shadow: 0 0 8px #69e4df65; }
+    .bond.double::before { top: -4px; } .bond.double::after { top: 4px; }
     .molecule-caption { position: absolute; right: 15px; bottom: 12px; color: var(--muted); font: 10px var(--mono); }
     .molecule-select { width: 100%; padding: 11px 12px; border: 1px solid var(--line); color: var(--text); background: #09151f; }
     .molecule-formula { color: var(--lime); font: 20px var(--mono); }
@@ -467,10 +470,10 @@
     });
 
     const moleculeData = {
-      water: { formula: 'H₂O', copy: 'Молекула воды полярна, поэтому вода умеет растворять огромное количество веществ.', atoms: [['H', 25, 72, ''], ['O', 105, 44, 'oxygen'], ['H', 185, 72, '']] },
-      co2: { formula: 'CO₂', copy: 'Линейная молекула. Углекислый газ прозрачен, но именно он удерживает часть тепла атмосферы.', atoms: [['O', 20, 72, 'oxygen'], ['C', 105, 72, ''], ['O', 190, 72, 'oxygen']] },
-      methane: { formula: 'CH₄', copy: 'Тетраэдрическая молекула. Метан — главный компонент природного газа.', atoms: [['H', 105, 16, ''], ['H', 20, 84, ''], ['C', 105, 72, ''], ['H', 190, 84, ''], ['H', 105, 133, '']] },
-      ammonia: { formula: 'NH₃', copy: 'Аммиак имеет резкий запах и используется как сырьё для удобрений.', atoms: [['H', 30, 92, ''], ['N', 105, 55, 'nitrogen'], ['H', 180, 92, ''], ['H', 105, 135, '']] }
+      water: { formula: 'H₂O', copy: 'Молекула воды полярна, поэтому вода умеет растворять огромное количество веществ.', atoms: [['H', 32, 90, ''], ['O', 120, 65, 'oxygen'], ['H', 208, 90, '']], bonds: [[0, 1, 1], [1, 2, 1]] },
+      co2: { formula: 'CO₂', copy: 'Линейная молекула. Углекислый газ прозрачен, но именно он удерживает часть тепла атмосферы.', atoms: [['O', 20, 78, 'oxygen'], ['C', 120, 78, ''], ['O', 220, 78, 'oxygen']], bonds: [[0, 1, 2], [1, 2, 2]] },
+      methane: { formula: 'CH₄', copy: 'Тетраэдрическая молекула. Метан — главный компонент природного газа.', atoms: [['H', 120, 10, ''], ['H', 28, 78, ''], ['C', 120, 70, ''], ['H', 212, 78, ''], ['H', 120, 140, '']], bonds: [[2, 0, 1], [2, 1, 1], [2, 3, 1], [2, 4, 1]] },
+      ammonia: { formula: 'NH₃', copy: 'Аммиак имеет резкий запах и используется как сырьё для удобрений.', atoms: [['H', 38, 98, ''], ['N', 120, 65, 'nitrogen'], ['H', 202, 98, ''], ['H', 120, 145, '']], bonds: [[1, 0, 1], [1, 2, 1], [1, 3, 1]] }
     };
     const molecule = document.getElementById('molecule');
     const moleculeFormula = document.getElementById('molecule-formula');
@@ -480,6 +483,21 @@
       molecule.replaceChildren();
       moleculeFormula.textContent = data.formula;
       moleculeCopy.textContent = data.copy;
+      for (const [from, to, order] of data.bonds) {
+        const source = data.atoms[from];
+        const target = data.atoms[to];
+        const x = target[1] - source[1];
+        const y = target[2] - source[2];
+        const angle = Math.atan2(y, x) * 180 / Math.PI;
+        const length = Math.sqrt(x * x + y * y);
+        const bond = document.createElement('span');
+        bond.className = `bond ${order === 2 ? 'double' : ''}`;
+        bond.style.left = `${source[1] + 25}px`;
+        bond.style.top = `${source[2] + 25}px`;
+        bond.style.width = `${length}px`;
+        bond.style.transform = `rotate(${angle}deg)`;
+        molecule.append(bond);
+      }
       for (const [symbol, left, top, type] of data.atoms) {
         const atom = document.createElement('span');
         atom.className = `atom ${type}`;
@@ -488,18 +506,6 @@
         atom.style.top = `${top}px`;
         molecule.append(atom);
       }
-      const atoms = [...molecule.children];
-      atoms.slice(1).forEach((atom, index) => {
-        const source = atoms[0].getBoundingClientRect();
-        const target = atom.getBoundingClientRect();
-        const x = target.left - source.left;
-        const y = target.top - source.top;
-        const angle = Math.atan2(y, x) * 180 / Math.PI;
-        const width = Math.sqrt(x * x + y * y);
-        atoms[0].style.setProperty('--bond-angle', `${angle}deg`);
-        atoms[0].style.setProperty('--bond-width', `${width}px`);
-        atom.style.setProperty('--bond-color', '#69e4df');
-      });
     }
     document.getElementById('molecule-select').addEventListener('change', (event) => renderMolecule(event.target.value));
     renderMolecule('water');
