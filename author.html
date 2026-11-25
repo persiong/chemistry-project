@@ -10,7 +10,7 @@
       color-scheme: dark;
       --bg: #071019;
       --panel: #0d1b29;
-      --line: #284154;
+      --line: #274154;
       --text: #e7f3f4;
       --muted: #a1bbc5;
       --cyan: #69e4df;
@@ -107,7 +107,7 @@
       margin: 0;
       padding: 8px;
       border: 1px solid #42717a;
-      border-radius: 16px;
+      border-radius: 12px;
       background: var(--panel);
       box-shadow: 0 18px 42px #0005, 0 0 28px #69e4df17;
       animation: appear .55s .09s ease-out both;
@@ -161,7 +161,7 @@
       .shell { width: calc(100% - 32px); }
       .top { min-height: 64px; }
       .profile, .roles { grid-template-columns: minmax(0, 1fr); }
-      .photo-frame { width: min(100%, 420px); }
+      .photo-frame { width: min(100%, 420px); justify-self: center; }
       .back { padding-inline: 9px; font-size: 11px; }
       .roles { gap: 8px; }
     }
@@ -183,12 +183,12 @@
         <div class="intro">
           <p class="kicker">Автор проекта</p>
           <h1 id="author-name">Горшков <em>Матвей.</em></h1>
-          <p class="lead">Создаю игры и инструменты, в которых сложные идеи становятся понятными, живыми и немного красивее, чем их представляешь в начале.</p>
+          <p class="lead">Создаю игры и инструменты, в которых сложные идеи оживают и становятся понятнее, а за каждым открытием хочется сделать ещё одно.</p>
           <p class="signature">Идеи тоже вступают в реакцию.</p>
         </div>
         <figure class="photo-frame">
           <div class="photo-view">
-            <img class="photo" src="assets/prod-winner.jpg" width="960" height="1280" alt="Участники хакатона PROD с дипломами победителей">
+            <img class="photo" src="assets/author-portrait.png" width="905" height="1210" alt="Портрет Матвея Горшкова">
           </div>
           <figcaption class="photo-label">
             <strong>Победитель хакатона PROD</strong>
@@ -212,7 +212,7 @@
       resourceUrl.hash = '';
       resourceUrl.searchParams.set('file', resourcePath.replace(/author\.html$/, 'chemistry.html'));
       document.querySelector('.back').href = resourceUrl.href;
-      resourceUrl.searchParams.set('file', resourcePath.replace(/author\.html$/, 'assets/prod-winner.jpg'));
+      resourceUrl.searchParams.set('file', resourcePath.replace(/author\.html$/, 'assets/author-portrait.png'));
       document.querySelector('.photo').src = resourceUrl.href;
     }
   </script>

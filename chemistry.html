@@ -12,7 +12,7 @@
       --panel-2: #102235;
       --line: #274154;
       --text: #e7f3f4;
-      --muted: #8eaab5;
+      --muted: #a1bbc5;
       --cyan: #69e4df;
       --lime: #c7ef75;
       --orange: #ffb66d;
@@ -137,7 +137,6 @@
     .orbital-row { display: flex; align-items: center; gap: 3px; font: 12px var(--mono); }
     .orbital-row strong { width: 24px; flex: none; }
     .orbital-box { display: grid; place-items: center; width: 22px; height: 21px; border: 1px solid #51727c; color: var(--cyan); }
-    .drop-layout { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 24px; align-items: center; }
     .drop-field { cursor: pointer; }
     .drop-field:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
     .drop-ring { position: absolute; left: 50%; top: 50%; width: 76%; height: 76%; transform: translate(-50%, -50%); border: 1px solid #69e4df65; border-radius: 50%; pointer-events: none; }
@@ -149,7 +148,6 @@
     .drop-dot { position: absolute; left: 50%; top: 12%; transform: translate(-50%, -50%); width: 13px; height: 13px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 13px var(--cyan); pointer-events: none; }
     .drop-dot.is-ready, .drop-dot.is-landed { background: var(--lime); box-shadow: 0 0 13px var(--lime); }
     .drop-counter { color: var(--lime); font: 700 16px var(--mono); }
-    @media (max-width: 700px) { .drop-layout { grid-template-columns: 1fr; } }
 
     .experiments { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 94px 0 100px; }
     .experiment { min-height: 420px; padding: 24px; }
@@ -249,7 +247,10 @@
     .panel, .hero-aside { border-radius: 12px; }
     .periodic-panel, .experiment { min-width: 0; }
     .table-scroll { overflow-x: auto; padding: 5px; scrollbar-color: #427582 #101e29; }
-    .orbit-console { display: grid; grid-template-columns: minmax(200px, 460px) minmax(180px, 300px); align-items: center; justify-content: center; gap: clamp(20px, 5vw, 76px); }
+    .orbit-console { display: grid; grid-template-columns: minmax(0, 420px) minmax(180px, 300px); align-items: start; justify-content: center; gap: clamp(20px, 5vw, 76px); }
+    .game-controls { display: grid; gap: 12px; min-width: 0; }
+    .game-controls :is(h3, p, .arcade-hud) { margin: 0; }
+    .game-controls .challenge-feedback { line-height: 1.5; }
     .orbit-field { width: 100%; margin: 0; isolation: isolate; background: radial-gradient(circle at center, #235262, transparent 42%), radial-gradient(#417379 1px, transparent 1px) 0 0 / 23px 23px, #0b1a26; }
     .orbit-ring { box-shadow: 0 0 10px #69e4df12, inset 0 0 10px #69e4df12; }
     .orbit-core { background: radial-gradient(circle at 38% 32%, #39707a, #0a212f 78%); }
@@ -258,11 +259,31 @@
     .arcade-hud { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .arcade-hud span { padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: #091720; }
     .arcade-hud strong { display: block; font-size: 26px; margin-top: 5px; }
-    #orbit-action { width: 100%; margin: 0; border-radius: 7px; }
+    .game-controls .challenge-next { width: 100%; margin: 0; }
     .orbit-spark { position: absolute; z-index: 2; pointer-events: none; width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }
     .orbit-spark.jump { color: var(--cyan); }
     .orbit-spark.collect { color: var(--lime); }
     .orbit-spark.hit { color: var(--pink); }
+    .reaction-screen { grid-template-rows: 1fr auto; gap: 8px; padding: 12px; }
+    .reaction-visual { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; min-height: 56px; }
+    .reaction-particle { padding: 7px 9px; border: 1px solid currentColor; border-radius: 20px; color: var(--cyan); background: #102638; font: 700 13px var(--mono); }
+    .is-running .reaction-particle { animation: reaction-mix .55s ease-in-out infinite alternate; }
+    .is-running .reaction-particle:nth-child(even) { animation-direction: alternate-reverse; }
+    .reaction-screen[data-stage="products"] .reaction-particle { animation: reaction-reveal .4s ease-out both; }
+    .reaction-screen[data-reaction="water"][data-stage="products"] .reaction-particle:last-child { color: var(--cyan); animation: gas-rise .7s ease-out both; }
+    .reaction-screen[data-reaction="acid"][data-stage="products"] .reaction-particle { color: var(--lime); }
+    .reaction-screen[data-reaction="fire"]:is(.is-running, [data-stage="products"]) { background: radial-gradient(ellipse at bottom, #854025, #291e29 55%, #08121c); }
+    .reaction-screen[data-reaction="fire"][data-stage="products"] .reaction-particle { color: var(--orange); }
+    @keyframes reaction-mix { to { transform: translateY(-7px) scale(1.08); } }
+    @keyframes reaction-reveal { from { opacity: .2; transform: scale(.75); } }
+    @keyframes gas-rise { from { opacity: .2; transform: translateY(12px); } }
+    .challenge-feedback[data-outcome] { padding: 10px 12px; border-left: 3px solid currentColor; background: #091720; }
+    .challenge-feedback[data-outcome="correct"] { color: var(--lime); animation: challenge-glow .6s ease-out; }
+    .challenge-feedback[data-outcome="wrong"] { color: var(--pink); animation: shake .3s ease-out; }
+    @keyframes challenge-glow { from { box-shadow: 0 0 20px #c7ef7560; } }
+    .challenge-score[data-result="perfect"] { border-color: var(--lime); animation: challenge-glow .75s ease-out; }
+    .challenge-score[data-result="review"] { border-color: var(--orange); }
+    .challenge-score[data-result="review"] strong { color: var(--orange); }
     @media (max-width: 800px) {
       .topbar { flex-wrap: wrap; gap: 8px; padding: 12px 0; }
       .lab-nav { order: 1; width: 100%; }
@@ -274,6 +295,36 @@
       .orbit-field { max-width: 420px; justify-self: center; }
       .filter-strip { flex-wrap: wrap; }
       .challenge-panel, .experiment { padding: 16px; }
+    }
+    .run-button, .challenge-next, .reaction-button, .challenge-option,
+    .element-search, .random-element, .filter-button, .molecule-select { border-radius: 8px; }
+    .run-button, .challenge-next, .reaction-button, .challenge-option,
+    .element-search, .random-element, .filter-button, .molecule-select { min-height: 44px; }
+    a:focus-visible, .element-search:focus-visible, .table-scroll:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+    .periodic-panel { overflow: visible; }
+    .chem-controls { grid-template-columns: minmax(0, 1fr) auto; }
+    .filter-strip { grid-column: 1 / -1; flex-wrap: wrap; }
+    .table-scroll { overscroll-behavior-inline: contain; }
+    .equation { max-width: 100%; overflow-wrap: anywhere; }
+    .molecule-stage { grid-template-columns: minmax(0, 1fr); }
+    @media (max-width: 700px) {
+      .shell { width: min(620px, calc(100% - 32px)); }
+      .hero { padding-block: 42px; gap: 22px; }
+      .hero-aside { min-height: 170px; padding: 18px; }
+      .readout { margin-top: 20px; }
+      .lab-nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); }
+      .lab-nav a { display: grid; place-items: center; min-height: 44px; text-align: center; }
+      .experiments { margin-block: 42px; }
+      .challenge-panel { margin-bottom: 42px; }
+      .challenge-layout, .orbit-console { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+      .challenge-next { width: 100%; }
+      .element-search, .molecule-select { font-size: 16px; }
+      .periodic-table { min-width: 880px; grid-template-columns: repeat(18, minmax(44px, 1fr)); }
+    }
+    @media (max-width: 400px) {
+      .chem-controls { grid-template-columns: minmax(0, 1fr); }
+      .molecule { transform: scale(.82); }
+      .experiment-title { font-size: 16px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -358,7 +409,10 @@
             <button class="reaction-button" type="button" data-reaction="acid"><span>Кислота + основание</span><small>HCl + NaOH</small></button>
             <button class="reaction-button" type="button" data-reaction="fire"><span>Горение метана</span><small>CH₄ + O₂</small></button>
           </div>
-          <div class="reaction-screen" id="reaction-screen"><div class="equation" id="equation">2Na + 2H₂O → 2NaOH + H₂↑<small>выбери реакцию и запусти</small></div></div>
+          <div class="reaction-screen" id="reaction-screen">
+            <div class="reaction-visual" id="reaction-visual" aria-hidden="true"></div>
+            <div class="equation" id="equation">2Na + 2H₂O → 2NaOH + H₂↑<small>выбери реакцию и запусти</small></div>
+          </div>
           <p class="reaction-result" id="reaction-result">Натрий не умеет вести себя спокойно рядом с водой. Поэтому здесь лучше смотреть, а не повторять.</p>
           <button class="run-button" id="run-reaction" type="button">Запустить эксперимент ↗</button>
         </article>
@@ -377,11 +431,12 @@
         </article>
       </section>
           <section class="panel challenge-panel" id="challenge" aria-labelledby="challenge-title">
-        <div class="section-head"><div><div class="section-index">04 / LAB CHALLENGE</div><h2 id="challenge-title">Проверь химическое чутьё</h2></div><p class="section-desc">Три быстрых вопроса. Ответь без подсказок и проверь, насколько хорошо ты читаешь формулы.</p></div>
+        <div class="section-head"><div><div class="section-index">04 / LAB CHALLENGE</div><h2 id="challenge-title">Проверь химическое чутьё</h2></div><p class="section-desc">Вопросы об элементах, молекулах и реакциях. После каждого ответа появится объяснение.</p></div>
         <div class="challenge-layout">
-          <div class="challenge-score"><strong id="challenge-score">0 / 3</strong><span>точных ответов</span></div>
+          <div class="challenge-score"><strong id="challenge-score"></strong><span>верных ответов</span></div>
           <div>
-            <div class="challenge-prompt" id="challenge-prompt">Загрузка вопроса...</div>
+            <p class="details-label" id="challenge-progress"></p>
+            <div class="challenge-prompt" id="challenge-prompt" tabindex="-1" aria-describedby="challenge-progress">Загрузка вопроса...</div>
             <div class="challenge-options" id="challenge-options"></div>
             <p class="challenge-feedback" id="challenge-feedback" role="status"></p>
             <button class="challenge-next" id="challenge-next" type="button" hidden>Следующий вопрос →</button>
@@ -393,38 +448,39 @@
         <div class="section-head">
           <div><div class="section-index">05 / ARCADE</div><h2 id="arcade-title">Скачок электрона</h2></div>
           <p class="section-desc">Электрон движется по часовой стрелке. Жми на поле или пробел, чтобы прыгать между орбитами. Собирай фотоны ◆ и обходи разряды ×.</p>
-          <a href="#electron-drop">Играть в «Провал электрона» ↓</a>
         </div>
         <div class="orbit-console">
-        <button class="orbit-field" id="orbit-field" type="button" aria-label="Начать игру">
-          <span class="orbit-ring"></span><span class="orbit-ring outer"></span>
-          <span class="orbit-core" aria-hidden="true">Li</span>
-          <span class="orbit-piece orbit-electron" id="orbit-electron"></span>
-        </button>
-        <div>
-        <div class="arcade-hud"><span>Фотоны <strong id="orbit-score">0</strong></span><span>Рекорд за сеанс <strong id="orbit-best">0</strong></span></div>
-        <button class="challenge-next" id="orbit-action" type="button">Начать игру</button>
-        <p class="challenge-feedback" id="orbit-status" role="status">Один фотон — одно очко.</p>
-        </div>
+          <button class="orbit-field" id="orbit-field" type="button" aria-label="Начать игру">
+            <span class="orbit-ring"></span><span class="orbit-ring outer"></span>
+            <span class="orbit-core" aria-hidden="true">Li</span>
+            <span class="orbit-piece orbit-electron" id="orbit-electron"></span>
+          </button>
+          <div class="game-controls">
+            <button class="challenge-next" id="orbit-action" type="button">Начать игру</button>
+            <div class="arcade-hud"><span>Фотоны <strong id="orbit-score">0</strong></span><span>Рекорд за сеанс <strong id="orbit-best">0</strong></span></div>
+            <p class="challenge-feedback" id="orbit-status" role="status">Один фотон — одно очко.</p>
+          </div>
         </div>
       </section>
       <section class="panel challenge-panel" id="electron-drop" aria-labelledby="drop-title">
-        <h2 id="drop-title">Провал электрона</h2>
-        <p class="section-desc">Лови электрон, когда он догонит зелёный сектор. Нажимай на поле, кнопку переноса или пробел, когда поле или кнопка в фокусе. За попадания подряд начисляется больше очков. Кольца условно показывают подуровни s и d.</p>
-        <div class="drop-layout">
+        <div class="section-head">
+          <div><div class="section-index">06 / ARCADE</div><h2 id="drop-title">Провал электрона</h2></div>
+          <p class="section-desc">Нажми на поле, кнопку переноса или пробел, когда электрон догонит зелёный сектор. Серия попаданий приносит больше очков. Число колец совпадает с номером периода элемента.</p>
+        </div>
+        <div class="orbit-console">
           <button class="orbit-field drop-field" id="drop-field" type="button" aria-label="Начать раунд" aria-describedby="drop-feedback">
             <span id="drop-rings" aria-hidden="true"></span>
             <span class="drop-gate" id="drop-gate" aria-hidden="true"></span>
             <span class="drop-core" id="drop-core" aria-hidden="true"></span>
             <span class="drop-dot" id="drop-dot" aria-hidden="true"></span>
           </button>
-          <div>
+          <div class="game-controls">
+            <button class="challenge-next" id="drop-action" type="button">Начать раунд</button>
             <h3 id="drop-prompt"></h3>
             <p class="drop-counter" id="drop-config"></p>
             <p id="drop-goal"></p>
-            <p id="drop-feedback" role="status"></p>
+            <p class="challenge-feedback" id="drop-feedback" role="status"></p>
             <p id="drop-score"></p>
-            <button class="challenge-next" id="drop-action" type="button">Начать раунд</button>
           </div>
         </div>
       </section>
@@ -928,20 +984,42 @@
     const reactionScreen = document.getElementById('reaction-screen');
     const equation = document.getElementById('equation');
     const reactionResult = document.getElementById('reaction-result');
+    const reactionVisual = document.getElementById('reaction-visual');
+    let reactionTimer;
+    function renderReactionVisual(products = false) {
+      const substances = reactions[activeReaction][0].split(' → ')[Number(products)].split(' + ');
+      reactionScreen.dataset.reaction = activeReaction;
+      reactionScreen.dataset.stage = products ? 'products' : 'reactants';
+      reactionVisual.replaceChildren();
+      for (const substance of substances) {
+        const particle = document.createElement('span');
+        particle.className = 'reaction-particle';
+        particle.textContent = substance;
+        reactionVisual.append(particle);
+      }
+    }
+    renderReactionVisual();
     document.querySelectorAll('.reaction-button').forEach((button) => {
       button.addEventListener('click', () => {
         activeReaction = button.dataset.reaction;
+        clearTimeout(reactionTimer);
+        reactionScreen.classList.remove('is-running');
+        renderReactionVisual();
         document.querySelectorAll('.reaction-button').forEach((node) => node.classList.toggle('is-active', node === button));
         equation.firstChild.textContent = reactions[activeReaction][0];
+        equation.querySelector('small').textContent = 'выбери реакцию и запусти';
         reactionResult.textContent = reactions[activeReaction][1];
       });
     });
     document.getElementById('run-reaction').addEventListener('click', () => {
+      clearTimeout(reactionTimer);
+      renderReactionVisual();
       reactionScreen.classList.add('is-running');
       equation.querySelector('small').textContent = 'молекулы перестраиваются...';
       reactionResult.innerHTML = '<strong>PROCESSING</strong> — ' + reactions[activeReaction][1];
-      window.setTimeout(() => {
+      reactionTimer = window.setTimeout(() => {
         reactionScreen.classList.remove('is-running');
+        renderReactionVisual(true);
         equation.querySelector('small').textContent = reactions[activeReaction][2];
         reactionResult.innerHTML = '<strong>RESULT</strong> — ' + reactions[activeReaction][2];
       }, 1250);
@@ -990,9 +1068,15 @@
     const challengeQuestions = [
       { prompt: 'Какой газ поддерживает горение?', options: ['Азот', 'Кислород', 'Аргон'], answer: 1, note: 'Кислород сам не горит, но помогает гореть другим веществам.' },
       { prompt: 'Что получится при нейтрализации кислоты основанием?', options: ['Вода и соль', 'Только водород', 'Металл и газ'], answer: 0, note: 'Классическая нейтрализация: HCl + NaOH → NaCl + H₂O.' },
-      { prompt: 'Какой элемент обозначается символом Fe?', options: ['Фтор', 'Фосфор', 'Железо'], answer: 2, note: 'Fe происходит от латинского ferrum — железо.' }
+      { prompt: 'Какой элемент обозначается символом Fe?', options: ['Фтор', 'Фосфор', 'Железо'], answer: 2, note: 'Fe происходит от латинского ferrum — железо.' },
+      { prompt: 'Сколько атомов водорода в молекуле аммиака NH₃?', options: ['Два', 'Три', 'Четыре'], answer: 1, note: 'Индекс ₃ после H означает три атома водорода.' },
+      { prompt: 'Что показывает порядковый номер элемента?', options: ['Число протонов', 'Число нейтронов', 'Число электронных слоёв'], answer: 0, note: 'Порядковый номер равен числу протонов в ядре.' },
+      { prompt: 'Какая молекула имеет линейную форму?', options: ['H₂O', 'NH₃', 'CO₂'], answer: 2, note: 'В CO₂ атом углерода находится между двумя атомами кислорода на одной прямой.' },
+      { prompt: 'Какой газ выделяется при реакции натрия с водой?', options: ['Кислород', 'Водород', 'Углекислый газ'], answer: 1, note: 'В уравнении реакции H₂↑ обозначает выделение водорода.' },
+      { prompt: 'Сколько электронных слоёв у атома хрома в основном состоянии, если хром находится в четвёртом периоде?', options: ['Четыре', 'Три', 'Шесть'], answer: 0, note: 'У хрома в основном состоянии заняты четыре электронных слоя.' }
     ];
     const challengePrompt = document.getElementById('challenge-prompt');
+    const challengeProgress = document.getElementById('challenge-progress');
     const challengeOptions = document.getElementById('challenge-options');
     const challengeFeedback = document.getElementById('challenge-feedback');
     const challengeScore = document.getElementById('challenge-score');
@@ -1001,10 +1085,24 @@
     let challengePoints = 0;
     function renderChallenge() {
       const question = challengeQuestions[challengeIndex];
-      challengePrompt.textContent = question.prompt;
       challengeFeedback.textContent = '';
-      challengeNext.hidden = true;
+      delete challengeFeedback.dataset.outcome;
       challengeOptions.replaceChildren();
+      challengeProgress.hidden = !question;
+      challengeNext.hidden = Boolean(question);
+      if (!question) {
+        const perfect = challengePoints === challengeQuestions.length;
+        challengePrompt.textContent = 'Тест завершён';
+        challengeScore.parentElement.dataset.result = perfect ? 'perfect' : 'review';
+        challengeFeedback.dataset.outcome = perfect ? 'correct' : 'wrong';
+        challengeFeedback.textContent = perfect
+          ? 'Все ответы верны!'
+          : `Верных ответов: ${challengePoints} из ${challengeQuestions.length}.`;
+        challengeNext.textContent = 'Пройти ещё раз ↺';
+        return;
+      }
+      challengeProgress.textContent = `Вопрос ${challengeIndex + 1} из ${challengeQuestions.length}`;
+      challengePrompt.textContent = question.prompt;
       question.options.forEach((option, optionIndex) => {
         const button = document.createElement('button');
         button.type = 'button';
@@ -1015,25 +1113,29 @@
           if (correct) challengePoints += 1;
           challengeScore.textContent = `${challengePoints} / ${challengeQuestions.length}`;
           button.classList.add(correct ? 'is-correct' : 'is-wrong');
-          challengeFeedback.textContent = correct ? `Точно. ${question.note}` : `Почти. ${question.note}`;
+          challengeFeedback.dataset.outcome = correct ? 'correct' : 'wrong';
+          challengeFeedback.textContent = correct ? `✓ Верно. ${question.note}` : `× Неверно. ${question.note}`;
           challengeOptions.querySelectorAll('button').forEach((node, index) => {
             node.disabled = true;
             if (index === question.answer) node.classList.add('is-correct');
           });
           challengeNext.hidden = false;
-          challengeNext.textContent = challengeIndex === challengeQuestions.length - 1 ? 'Пройти ещё раз ↺' : 'Следующий вопрос →';
+          challengeNext.textContent = challengeIndex === challengeQuestions.length - 1 ? 'Показать результат →' : 'Следующий вопрос →';
         });
         challengeOptions.append(button);
       });
     }
     challengeNext.addEventListener('click', () => {
-      if (challengeIndex === challengeQuestions.length - 1) {
+      if (challengeIndex === challengeQuestions.length) {
         challengeIndex = 0;
         challengePoints = 0;
+        delete challengeScore.parentElement.dataset.result;
         challengeScore.textContent = `0 / ${challengeQuestions.length}`;
       } else challengeIndex += 1;
       renderChallenge();
+      challengePrompt.focus();
     });
+    challengeScore.textContent = `0 / ${challengeQuestions.length}`;
     renderChallenge();
 
     const field = document.getElementById('orbit-field');
@@ -1144,26 +1246,24 @@
       if (phase === 'over') resetOrbit();
       phase = 'playing';
       lastTime = null;
-      action.textContent = 'Пауза';
+      action.textContent = 'Сменить орбиту';
       field.setAttribute('aria-label', 'Сменить орбиту');
-      orbitStatus.textContent = 'Пробел или нажатие на поле — смена орбиты.';
-      field.focus({ preventScroll: true });
+      orbitStatus.textContent = 'Нажми кнопку, поле или пробел, чтобы сменить орбиту.';
       frame = requestAnimationFrame(orbitTick);
     }
 
-    field.addEventListener('click', () => {
+    function handleOrbitInput() {
       if (phase !== 'playing') return playOrbit();
       emitSparks('jump');
       outer = !outer;
       place(electron, angle, outer);
-    });
-    field.addEventListener('keydown', event => {
-      if (event.repeat && (event.key === 'Enter' || event.key === ' ')) event.preventDefault();
-    });
-    action.addEventListener('click', () => {
-      if (phase === 'playing') stopOrbit('paused');
-      else playOrbit();
-    });
+    }
+    for (const control of [field, action]) {
+      control.addEventListener('click', handleOrbitInput);
+      control.addEventListener('keydown', event => {
+        if (event.repeat && (event.key === 'Enter' || event.key === ' ')) event.preventDefault();
+      });
+    }
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && phase === 'playing') stopOrbit('paused');
     });
