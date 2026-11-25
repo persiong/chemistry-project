@@ -106,13 +106,15 @@
     .legend { display: flex; flex-wrap: wrap; gap: 9px 15px; }
     .legend-item { display: inline-flex; align-items: center; gap: 5px; }
     .legend-dot { width: 7px; height: 7px; border-radius: 2px; }
-    .legend-dot.alkali { background: var(--orange); } .legend-dot.metals { background: var(--cyan); } .legend-dot.nonmetals { background: var(--lime); } .legend-dot.noble { background: var(--pink); }
+    .legend-dot.alkali { background: var(--orange); } .legend-dot.metals { background: var(--cyan); } .legend-dot.nonmetals { background: var(--lime); } .legend-dot.noble { background: var(--pink); } .legend-dot.metalloids { background: #568e68; }
     .periodic-table { display: grid; grid-template-columns: repeat(18, minmax(38px, 1fr)); grid-auto-rows: 61px; gap: 5px; min-width: 805px; }
     .element { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; padding: 7px 6px; border: 1px solid #294354; border-radius: 4px; color: var(--text); background: #102638; text-align: left; transition: transform .18s, border-color .18s, box-shadow .18s; }
     .element:hover, .element.is-active { z-index: 1; transform: translateY(-3px); border-color: var(--lime); box-shadow: 0 0 0 1px var(--lime), 0 9px 22px #0008; }
     .element.alkali { background: linear-gradient(145deg, #4d3022, #1b2530); border-color: #a96841; }
     .element.metals { background: linear-gradient(145deg, #123d48, #122638); border-color: #297481; }
-    .element.nonmetals { background: linear-gradient(145deg, #27432f, #152d35); border-color: #568e68; }
+    .element.nonmetals { background: linear-gradient(145deg, #3d702b, #23462c); border-color: #9cdd61; color: #e5ffb6; }
+    .element.nonmetals :is(.element-number, .element-name) { color: #e1f2cf; }
+    .element.metalloids { background: #27432f; border-color: #568e68; }
     .element.noble { background: linear-gradient(145deg, #4b2b4a, #20283d); border-color: #945681; }
     .element-number { color: var(--muted); font: 9px var(--mono); }
     .element-symbol { font: 700 21px var(--display); line-height: 1; }
@@ -128,7 +130,26 @@
     .detail-list { display: grid; gap: 12px; margin: 0; }
     .detail-row { display: flex; justify-content: space-between; gap: 15px; color: var(--muted); font: 11px var(--mono); }
     .detail-row dd { margin: 0; color: var(--text); text-align: right; }
-    .fact { margin: 26px 0 0; padding: 14px; border-left: 2px solid var(--orange); color: #d0dcda; background: #ffb66d0a; font-size: 13px; line-height: 1.55; }
+    .fact { margin: 20px 0 0; padding: 14px; border-left: 2px solid var(--orange); color: #d0dcda; background: #ffb66d0a; font-size: 16px; line-height: 1.6; }
+    .detail-row { font-size: 14px; }
+    .orbital-heading { margin: 18px 0 8px; font-size: 16px; }
+    .orbital-diagram { display: grid; gap: 4px; }
+    .orbital-row { display: flex; align-items: center; gap: 3px; font: 12px var(--mono); }
+    .orbital-row strong { width: 24px; flex: none; }
+    .orbital-box { display: grid; place-items: center; width: 22px; height: 21px; border: 1px solid #51727c; color: var(--cyan); }
+    .drop-layout { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 24px; align-items: center; }
+    .drop-field { cursor: pointer; }
+    .drop-field:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
+    .drop-ring { position: absolute; left: 50%; top: 50%; width: 76%; height: 76%; transform: translate(-50%, -50%); border: 1px solid #69e4df65; border-radius: 50%; pointer-events: none; }
+    .drop-ring.inner { width: 44%; height: 44%; border-color: #c8fa7765; }
+    .drop-gate { position: absolute; inset: 12%; border-radius: 50%; background: conic-gradient(from -30deg, #c8fa77, #c8fa77 60deg, transparent 60deg); mask: radial-gradient(closest-side, transparent 92%, #000 93%); pointer-events: none; }
+    .drop-field.is-ready { border-color: var(--lime); }
+    #drop-action.is-ready { border-color: var(--lime); background: var(--lime); }
+    .drop-core { position: absolute; inset: 42%; display: grid; place-items: center; border: 1px solid var(--cyan); border-radius: 50%; background: #123440; color: var(--cyan); font: 700 clamp(14px, 4vw, 24px) var(--display); }
+    .drop-dot { position: absolute; left: 50%; top: 12%; transform: translate(-50%, -50%); width: 13px; height: 13px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 13px var(--cyan); pointer-events: none; }
+    .drop-dot.is-ready, .drop-dot.is-landed { background: var(--lime); box-shadow: 0 0 13px var(--lime); }
+    .drop-counter { color: var(--lime); font: 700 16px var(--mono); }
+    @media (max-width: 700px) { .drop-layout { grid-template-columns: 1fr; } }
 
     .experiments { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 94px 0 100px; }
     .experiment { min-height: 420px; padding: 24px; }
@@ -168,7 +189,6 @@
 
     footer { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0 35px; border-top: 1px solid var(--line); color: var(--muted); font: 10px var(--mono); }
     .footer-cyan { color: var(--cyan); }
-    .footer-author { color: var(--lime); }
 
     .challenge-panel { margin: 18px 0 100px; padding: 25px; }
     .challenge-layout { display: grid; grid-template-columns: .75fr 1.25fr; gap: 28px; align-items: center; }
@@ -222,6 +242,8 @@
     .lab-nav { display: flex; flex-wrap: wrap; gap: 4px; }
     .lab-nav a { padding: 10px 12px; color: #b6cdd2; font: 13px var(--sans); text-decoration: none; border-radius: 6px; }
     .lab-nav a:hover, .lab-nav a:focus-visible { background: #17303b; color: var(--cyan); }
+    .lab-nav .author-link { border: 1px solid #c8fa7780; background: #263d25; color: var(--lime); font-weight: 700; }
+    .lab-nav .author-link:is(:hover, :focus-visible) { background: var(--lime); color: var(--bg); }
     .arcade-link { padding: 14px 20px; border-radius: 7px; color: var(--bg); background: var(--lime); font-weight: 700; text-decoration: none; }
     .arcade-link:hover { background: #dbffa0; }
     .panel, .hero-aside { border-radius: 12px; }
@@ -263,7 +285,7 @@
   <div class="shell">
     <header class="topbar">
       <div class="logo"><span class="logo-mark">∑</span> CHEM // LAB</div>
-      <nav class="lab-nav" aria-label="Разделы лаборатории"><a href="#periodic">Элементы</a><a href="#experiments">Опыты</a><a href="#challenge">Викторина</a><a href="#arcade">Аркада</a></nav>
+      <nav class="lab-nav" aria-label="Разделы лаборатории"><a href="#periodic">Элементы</a><a href="#experiments">Опыты</a><a href="#challenge">Викторина</a><a href="#arcade">Аркада</a><a class="author-link" href="author.html">Об авторе ↗</a></nav>
       <div class="top-meta"><span class="status">SIMULATION ONLINE</span><span>v 1.0.24 / OPEN STUDY</span></div>
     </header>
 
@@ -289,11 +311,11 @@
       <section id="periodic" aria-labelledby="periodic-title">
         <div class="section-head">
           <div><div class="section-index">01 / ATOMIC MAP</div><h2 id="periodic-title">Карта элементов</h2></div>
-          <p class="section-desc">Нажми на любой элемент. Справа появится его характер, масса и маленький факт, который обычно не рассказывают в учебнике.</p>
+          <p class="section-desc">Выбери элемент, чтобы посмотреть его атомную массу, электронную конфигурацию и схему заполнения орбиталей.</p>
         </div>
         <div class="lab-grid">
           <div class="panel periodic-panel">
-            <div class="table-toolbar"><span>PERIODIC TABLE / 118 ELEMENTS</span><div class="legend"><span class="legend-item"><i class="legend-dot alkali"></i> активные</span><span class="legend-item"><i class="legend-dot metals"></i> металлы</span><span class="legend-item"><i class="legend-dot nonmetals"></i> неметаллы</span><span class="legend-item"><i class="legend-dot noble"></i> инертные</span></div></div>
+            <div class="table-toolbar"><span>PERIODIC TABLE / 118 ELEMENTS</span><div class="legend"><span class="legend-item"><i class="legend-dot alkali"></i> активные</span><span class="legend-item"><i class="legend-dot metals"></i> металлы</span><span class="legend-item"><i class="legend-dot nonmetals"></i> неметаллы</span><span class="legend-item"><i class="legend-dot metalloids"></i> металлоиды</span><span class="legend-item"><i class="legend-dot noble"></i> инертные</span></div></div>
             <div class="chem-controls">
               <input class="element-search" id="element-search" type="search" placeholder="Найти элемент: золото, Au, 79" aria-label="Найти элемент">
               <button class="random-element" id="random-element" type="button">Случайный атом ↗</button>
@@ -301,6 +323,7 @@
                 <button class="filter-button is-active" type="button" data-kind="all">все</button>
                 <button class="filter-button" type="button" data-kind="metals">металлы</button>
                 <button class="filter-button" type="button" data-kind="nonmetals">неметаллы</button>
+                <button class="filter-button" type="button" data-kind="metalloids">металлоиды</button>
                 <button class="filter-button" type="button" data-kind="noble">газы</button>
               </div>
             </div>
@@ -308,16 +331,20 @@
             <div class="table-scroll" role="region" aria-label="Периодическая таблица" tabindex="0"><div class="periodic-table" id="periodic-table"></div></div>
           </div>
           <aside class="panel details-panel" id="element-details" aria-live="polite">
-            <div class="details-label">SELECTED ATOM</div>
+            <div class="details-label">Выбранный атом</div>
             <div class="details-symbol" id="detail-symbol">H</div>
             <div class="details-name" id="detail-name">Водород</div>
             <div class="details-type" id="detail-type">НЕМЕТАЛЛ</div>
             <div class="detail-rule"></div>
             <dl class="detail-list">
-              <div class="detail-row"><dt>№ протонов</dt><dd id="detail-number">1</dd></div>
-              <div class="detail-row"><dt>атомная масса</dt><dd id="detail-mass">1.008 u</dd></div>
-              <div class="detail-row"><dt>электроны</dt><dd id="detail-electrons">1</dd></div>
+              <div class="detail-row"><dt>Протоны</dt><dd id="detail-number">1</dd></div>
+              <div class="detail-row"><dt>Электроны</dt><dd id="detail-electrons">1</dd></div>
+              <div class="detail-row"><dt>Период</dt><dd id="detail-period">1</dd></div>
+              <div class="detail-row"><dt id="mass-label">Атомная масса</dt><dd id="detail-mass">1,008 а. е. м.</dd></div>
             </dl>
+            <h3 class="orbital-heading">Электронно-графическая схема</h3>
+            <p id="detail-config"></p>
+            <div class="orbital-diagram" id="detail-orbitals"></div>
             <p class="fact" id="detail-fact">Самый лёгкий элемент во Вселенной. Именно из водорода родились первые звёзды.</p>
           </aside>
         </div>
@@ -366,6 +393,7 @@
         <div class="section-head">
           <div><div class="section-index">05 / ARCADE</div><h2 id="arcade-title">Скачок электрона</h2></div>
           <p class="section-desc">Электрон движется по часовой стрелке. Жми на поле или пробел, чтобы прыгать между орбитами. Собирай фотоны ◆ и обходи разряды ×.</p>
+          <a href="#electron-drop">Играть в «Провал электрона» ↓</a>
         </div>
         <div class="orbit-console">
         <button class="orbit-field" id="orbit-field" type="button" aria-label="Начать игру">
@@ -380,12 +408,44 @@
         </div>
         </div>
       </section>
+      <section class="panel challenge-panel" id="electron-drop" aria-labelledby="drop-title">
+        <h2 id="drop-title">Провал электрона</h2>
+        <p class="section-desc">Лови электрон, когда он догонит зелёный сектор. Нажимай на поле, кнопку переноса или пробел, когда поле или кнопка в фокусе. За попадания подряд начисляется больше очков. Кольца условно показывают подуровни s и d.</p>
+        <div class="drop-layout">
+          <button class="orbit-field drop-field" id="drop-field" type="button" aria-label="Начать раунд" aria-describedby="drop-feedback">
+            <span class="drop-ring" aria-hidden="true"></span>
+            <span class="drop-ring inner" aria-hidden="true"></span>
+            <span class="drop-gate" id="drop-gate" aria-hidden="true"></span>
+            <span class="drop-core" id="drop-core" aria-hidden="true"></span>
+            <span class="drop-dot" id="drop-dot" aria-hidden="true"></span>
+          </button>
+          <div>
+            <h3 id="drop-prompt"></h3>
+            <p class="drop-counter" id="drop-config"></p>
+            <p id="drop-goal"></p>
+            <p id="drop-feedback" role="status"></p>
+            <p id="drop-score"></p>
+            <button class="challenge-next" id="drop-action" type="button">Начать раунд</button>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <footer><span><span class="footer-cyan">CHEM // LAB</span> — формулы в движении, знания в реакции.</span><a class="footer-author" href="author.html">Автор — Горшков Матвей ↗</a></footer>
+    <footer><span><span class="footer-cyan">CHEM // LAB</span> — формулы в движении, знания в реакции.</span></footer>
   </div>
 
   <script>
+    // Moodle can serve the resource path inside the file query parameter.
+    {
+      const resourceUrl = new URL(window.location.href);
+      const resourcePath = resourceUrl.searchParams.get('file');
+      if (resourceUrl.pathname.endsWith('/pluginfile.php') && resourcePath?.endsWith('/chemistry.html')) {
+        resourceUrl.searchParams.set('file', resourcePath.replace(/chemistry\.html$/, 'author.html'));
+        resourceUrl.hash = '';
+        document.querySelector('.author-link').href = resourceUrl.href;
+      }
+    }
+
     const periodRows = [
       ['H','','','','','','','','','','','','','','','','','He'],
       ['Li','Be','','','','','','','','','','','B','C','N','O','F','Ne'],
@@ -427,7 +487,8 @@
     function elementKind(symbol, number) {
       if (noble.has(symbol)) return 'noble';
       if (alkali.has(symbol)) return 'alkali';
-      if (nonmetals.has(symbol) || halogens.has(symbol) || metalloids.has(symbol)) return 'nonmetals';
+      if (nonmetals.has(symbol) || halogens.has(symbol)) return 'nonmetals';
+      if (metalloids.has(symbol)) return 'metalloids';
       return 'metals';
     }
     function elementType(symbol, number) {
@@ -440,12 +501,168 @@
       if (number >= 89 && number <= 103) return 'АКТИНОИД';
       return 'МЕТАЛЛ';
     }
+    // NIST SP 966 (June 2024), in atomic-number order.
+    const atomicData = `
+      1.008 1s¹
+      4.0026 1s²
+      6.94 [He]2s¹
+      9.0122 [He]2s²
+      10.81 [He]2s²2p¹
+      12.011 [He]2s²2p²
+      14.007 [He]2s²2p³
+      15.999 [He]2s²2p⁴
+      18.998 [He]2s²2p⁵
+      20.180 [He]2s²2p⁶
+      22.990 [Ne]3s¹
+      24.305 [Ne]3s²
+      26.982 [Ne]3s²3p¹
+      28.085 [Ne]3s²3p²
+      30.974 [Ne]3s²3p³
+      32.06 [Ne]3s²3p⁴
+      35.45 [Ne]3s²3p⁵
+      39.95 [Ne]3s²3p⁶
+      39.098 [Ar]4s¹
+      40.078 [Ar]4s²
+      44.956 [Ar]3d¹4s²
+      47.867 [Ar]3d²4s²
+      50.942 [Ar]3d³4s²
+      51.996 [Ar]3d⁵4s¹
+      54.938 [Ar]3d⁵4s²
+      55.845 [Ar]3d⁶4s²
+      58.933 [Ar]3d⁷4s²
+      58.693 [Ar]3d⁸4s²
+      63.546 [Ar]3d¹⁰4s¹
+      65.38 [Ar]3d¹⁰4s²
+      69.723 [Ar]3d¹⁰4s²4p¹
+      72.630 [Ar]3d¹⁰4s²4p²
+      74.922 [Ar]3d¹⁰4s²4p³
+      78.971 [Ar]3d¹⁰4s²4p⁴
+      79.904 [Ar]3d¹⁰4s²4p⁵
+      83.798 [Ar]3d¹⁰4s²4p⁶
+      85.468 [Kr]5s¹
+      87.62 [Kr]5s²
+      88.906 [Kr]4d¹5s²
+      91.224 [Kr]4d²5s²
+      92.906 [Kr]4d⁴5s¹
+      95.95 [Kr]4d⁵5s¹
+      (97) [Kr]4d⁵5s²
+      101.07 [Kr]4d⁷5s¹
+      102.91 [Kr]4d⁸5s¹
+      106.42 [Kr]4d¹⁰
+      107.87 [Kr]4d¹⁰5s¹
+      112.41 [Kr]4d¹⁰5s²
+      114.82 [Kr]4d¹⁰5s²5p¹
+      118.71 [Kr]4d¹⁰5s²5p²
+      121.76 [Kr]4d¹⁰5s²5p³
+      127.60 [Kr]4d¹⁰5s²5p⁴
+      126.90 [Kr]4d¹⁰5s²5p⁵
+      131.29 [Kr]4d¹⁰5s²5p⁶
+      132.91 [Xe]6s¹
+      137.33 [Xe]6s²
+      138.91 [Xe]5d¹6s²
+      140.12 [Xe]4f¹5d¹6s²
+      140.91 [Xe]4f³6s²
+      144.24 [Xe]4f⁴6s²
+      (145) [Xe]4f⁵6s²
+      150.36 [Xe]4f⁶6s²
+      151.96 [Xe]4f⁷6s²
+      157.25 [Xe]4f⁷5d¹6s²
+      158.93 [Xe]4f⁹6s²
+      162.50 [Xe]4f¹⁰6s²
+      164.93 [Xe]4f¹¹6s²
+      167.26 [Xe]4f¹²6s²
+      168.93 [Xe]4f¹³6s²
+      173.05 [Xe]4f¹⁴6s²
+      174.97 [Xe]4f¹⁴5d¹6s²
+      178.49 [Xe]4f¹⁴5d²6s²
+      180.95 [Xe]4f¹⁴5d³6s²
+      183.84 [Xe]4f¹⁴5d⁴6s²
+      186.21 [Xe]4f¹⁴5d⁵6s²
+      190.23 [Xe]4f¹⁴5d⁶6s²
+      192.22 [Xe]4f¹⁴5d⁷6s²
+      195.08 [Xe]4f¹⁴5d⁹6s¹
+      196.97 [Xe]4f¹⁴5d¹⁰6s¹
+      200.59 [Xe]4f¹⁴5d¹⁰6s²
+      204.38 [Xe]4f¹⁴5d¹⁰6s²6p¹
+      207.2 [Xe]4f¹⁴5d¹⁰6s²6p²
+      208.98 [Xe]4f¹⁴5d¹⁰6s²6p³
+      (209) [Xe]4f¹⁴5d¹⁰6s²6p⁴
+      (210) [Xe]4f¹⁴5d¹⁰6s²6p⁵
+      (222) [Hg]6p⁶
+      (223) [Rn]7s¹
+      (226) [Rn]7s²
+      (227) [Rn]6d¹7s²
+      232.04 [Rn]6d²7s²
+      231.04 [Rn]5f²6d¹7s²
+      238.03 [Rn]5f³6d¹7s²
+      (237) [Rn]5f⁴6d¹7s²
+      (244) [Rn]5f⁶7s²
+      (243) [Rn]5f⁷7s²
+      (247) [Rn]5f⁷6d¹7s²
+      (247) [Rn]5f⁹7s²
+      (251) [Rn]5f¹⁰7s²
+      (252) [Rn]5f¹¹7s²
+      (257) [Rn]5f¹²7s²
+      (258) [Rn]5f¹³7s²
+      (259) [Rn]5f¹⁴7s²
+      (262) [Rn]5f¹⁴7s²7p¹
+      (267) [Rn]5f¹⁴6d²7s²
+      (268) [Rn]5f¹⁴6d³7s²
+      (269) [Rn]5f¹⁴6d⁴7s²
+      (270) [Rn]5f¹⁴6d⁵7s²
+      (269) [Rn]5f¹⁴6d⁶7s²
+      (277) [Rn]5f¹⁴6d⁷7s²
+      (281) [Rn]5f¹⁴6d⁹7s¹
+      (282) [Rn]5f¹⁴6d¹⁰7s¹
+      (285) [Rn]5f¹⁴6d¹⁰7s²
+      (286) [Rn]5f¹⁴6d¹⁰7s²7p¹
+      (290) [Rn]5f¹⁴6d¹⁰7s²7p²
+      (290) [Rn]5f¹⁴6d¹⁰7s²7p³
+      (293) [Rn]5f¹⁴6d¹⁰7s²7p⁴
+      (294) [Rn]5f¹⁴6d¹⁰7s²7p⁵
+      (294) [Rn]5f¹⁴6d¹⁰7s²7p⁶
+    `.trim().split(/\n\s*/);
+    const orbitalCapacity = { s: 1, p: 3, d: 5, f: 7 };
+    const superscripts = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+
+    function configurationFor(number) {
+      const config = atomicData[number - 1].split(' ')[1];
+      const core = config.match(/^\[(\w+)\]/);
+      const subshells = core ? configurationFor(atomicNumbers[core[1]]) : [];
+      for (const [, label, occupancy] of config.matchAll(/([1-7][spdf])([⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g)) {
+        const electrons = Number([...occupancy].map((digit) => superscripts.indexOf(digit)).join(''));
+        subshells.push({ label, electrons });
+      }
+      return subshells;
+    }
+
+    function formatSubshell(label, electrons) {
+      return label + [...String(electrons)].map((digit) => superscripts[digit]).join('');
+    }
+
+    function showOrbitals(element) {
+      const subshells = configurationFor(element.n);
+      document.getElementById('detail-config').textContent = subshells
+        .map(({ label, electrons }) => formatSubshell(label, electrons)).join(' ');
+      document.getElementById('detail-orbitals').innerHTML = subshells.map(({ label, electrons }) => {
+        const capacity = orbitalCapacity[label[1]];
+        const cells = Array.from({ length: capacity }, (_, index) => {
+          const arrows = index + capacity < electrons ? '↑↓' : index < electrons ? '↑' : '';
+          return `<span class="orbital-box">${arrows}</span>`;
+        });
+        return `<div class="orbital-row"><strong>${label}</strong>${cells.join('')}</div>`;
+      }).join('');
+    }
+
     const elements = [];
     periodRows.forEach((row, rowIndex) => row.forEach((symbol, columnIndex) => {
       if (!symbol) return;
       const number = atomicNumbers[symbol];
-      elements.push({ n: number, s: symbol, name: elementNames[symbol], type: elementType(symbol, number), kind: elementKind(symbol, number), mass: `≈ ${number} u`, electrons: number, col: columnIndex + 1, row: rowIndex + 1, fact: facts[symbol] || `Элемент №${number}. Его свойства определяются числом протонов и электронной конфигурацией.` });
-    }));    const table = document.getElementById('periodic-table');
+      const [mass] = atomicData[number - 1].split(' ');
+      const period = rowIndex < 7 ? rowIndex + 1 : rowIndex - 1;
+      elements.push({ n: number, s: symbol, name: elementNames[symbol], type: elementType(symbol, number), kind: elementKind(symbol, number), mass, period, electrons: number, col: columnIndex + 1, row: rowIndex + 1, fact: facts[symbol] || '' });
+    }));
+    const table = document.getElementById('periodic-table');
     const detailsPanel = document.getElementById('element-details');
     const details = {
       symbol: document.getElementById('detail-symbol'), name: document.getElementById('detail-name'), type: document.getElementById('detail-type'), number: document.getElementById('detail-number'), mass: document.getElementById('detail-mass'), electrons: document.getElementById('detail-electrons'), fact: document.getElementById('detail-fact')
@@ -459,9 +676,20 @@
       details.name.textContent = element.name;
       details.type.textContent = element.type;
       details.number.textContent = element.n;
-      details.mass.textContent = element.mass;
+      const isotope = element.mass.startsWith('(');
+      document.getElementById('mass-label').textContent = isotope ? 'Массовое число изотопа' : 'Атомная масса';
+      details.mass.textContent = isotope ? element.mass.slice(1, -1) : `${element.mass.replace('.', ',')} а. е. м.`;
       details.electrons.textContent = element.electrons;
-      details.fact.textContent = element.fact;
+      document.getElementById('detail-period').textContent = element.period;
+      const shells = Array(element.period).fill(0);
+      for (const { label, electrons } of configurationFor(element.n)) shells[Number(label[0]) - 1] += electrons;
+      details.fact.textContent = [
+        `Электронов по оболочкам (от ядра): ${shells.join(' · ')}.`,
+        `На внешней занятой оболочке: ${shells.findLast((count) => count > 0)}.`,
+        element.fact,
+        element.n >= 109 ? 'Электронная конфигурация приведена по расчётным данным.' : ''
+      ].filter(Boolean).join(' ');
+      showOrbitals(element);
     }
 
     const elementNodes = new Map();
@@ -478,6 +706,170 @@
       elementNodes.set(element.n, button);
     }
     selectElement(elements[0]);
+
+    const dropRounds = [
+      ['Cr', '4s', '3d', 4], ['Cu', '4s', '3d', 9],
+      ['Nb', '5s', '4d', 3], ['Mo', '5s', '4d', 4],
+      ['Ru', '5s', '4d', 6], ['Rh', '5s', '4d', 7],
+      ['Pd', '5s', '4d', 8], ['Ag', '5s', '4d', 9],
+      ['Pt', '6s', '5d', 8], ['Au', '6s', '5d', 9]
+    ];
+    const dropField = document.getElementById('drop-field');
+    const dropCore = document.getElementById('drop-core');
+    const dropDot = document.getElementById('drop-dot');
+    const dropGate = document.getElementById('drop-gate');
+    const dropPrompt = document.getElementById('drop-prompt');
+    const dropConfig = document.getElementById('drop-config');
+    const dropGoal = document.getElementById('drop-goal');
+    const dropFeedback = document.getElementById('drop-feedback');
+    const dropScore = document.getElementById('drop-score');
+    const dropAction = document.getElementById('drop-action');
+    const dropMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const gateLimit = Math.cos(30 * Math.PI / 180);
+    let dropIndex = 0;
+    let dropMisses = 0;
+    let dropPoints = 0;
+    let dropCombo = 0;
+    let transferred = 0;
+    let requiredTransfers = 0;
+    let dropState = 'idle';
+    let lapStartedAt = 0;
+    let dropFrame = 0;
+    let electronAngle = Math.PI;
+    let gateCenter = 0;
+
+    function dropPosition(angle, radius) {
+      return {
+        left: (50 + radius * Math.sin(angle)) + '%',
+        top: (50 - radius * Math.cos(angle)) + '%'
+      };
+    }
+
+    function updateDropConfig() {
+      const [, s, d, expectedD] = dropRounds[dropIndex];
+      dropConfig.textContent = formatSubshell(s, 2 - transferred) + ' · ' + formatSubshell(d, expectedD + transferred);
+      dropScore.textContent = `Перенесено: ${transferred}/${requiredTransfers} · Очки: ${dropPoints} · Серия: ${dropCombo} · Промахи: ${dropMisses}`;
+    }
+
+    function setDropReady(ready) {
+      dropDot.classList.toggle('is-ready', ready);
+      dropField.classList.toggle('is-ready', ready);
+      dropAction.classList.toggle('is-ready', ready);
+    }
+
+    function showDropRound() {
+      const [symbol, s, d, expectedD] = dropRounds[dropIndex];
+      const groundState = configurationFor(atomicNumbers[symbol]);
+      requiredTransfers = groundState.find(({ label }) => label === d).electrons - expectedD;
+      transferred = 0;
+      dropState = 'idle';
+      dropCore.textContent = symbol;
+      dropPrompt.textContent = (dropIndex + 1) + ' из ' + dropRounds.length + ' · ' + elementNames[symbol];
+      dropGoal.textContent = 'Внешнее кольцо: ' + s + ' · Внутреннее кольцо: ' + d;
+      dropFeedback.textContent = 'Нажми «Начать раунд», чтобы запустить электрон.';
+      dropAction.textContent = 'Начать раунд';
+      dropField.setAttribute('aria-label', 'Начать раунд');
+      setDropReady(false);
+      dropDot.classList.remove('is-landed');
+      Object.assign(dropDot.style, dropPosition(Math.PI, 38));
+      dropGate.style.transform = '';
+      updateDropConfig();
+    }
+
+    function spinDropElectron(now) {
+      const lapDuration = 2200 - dropIndex * 65;
+      const elapsed = now - lapStartedAt;
+      const direction = dropIndex % 2 === 0 ? 1 : -1;
+      const startingGate = (dropIndex + transferred) * Math.PI / 3;
+      gateCenter = dropMotion.matches ? 0 : (startingGate + direction * elapsed / (780 - dropIndex * 32)) % (2 * Math.PI);
+      electronAngle = dropMotion.matches ? 0 : (startingGate + Math.PI + elapsed * 2 * Math.PI / lapDuration) % (2 * Math.PI);
+      dropGate.style.transform = `rotate(${gateCenter}rad)`;
+      Object.assign(dropDot.style, dropPosition(electronAngle, 38));
+      setDropReady(Math.cos(electronAngle - gateCenter) >= gateLimit);
+      dropFrame = requestAnimationFrame(spinDropElectron);
+    }
+
+    function startDropLap() {
+      dropState = 'spinning';
+      lapStartedAt = performance.now();
+      spinDropElectron(lapStartedAt);
+      dropAction.textContent = 'Перенести электрон';
+      dropField.setAttribute('aria-label', 'Перенести электрон');
+    }
+
+    async function playDrop() {
+      if (dropState === 'falling') return;
+      if (dropState === 'complete') {
+        dropIndex = (dropIndex + 1) % dropRounds.length;
+        if (dropIndex === 0) {
+          dropMisses = 0;
+          dropPoints = 0;
+          dropCombo = 0;
+        }
+        showDropRound();
+        return;
+      }
+      if (dropState === 'idle') {
+        startDropLap();
+        dropFeedback.textContent = dropMotion.matches ? 'Электрон в секторе. Нажми, чтобы перенести его.' : 'Лови электрон в зелёном секторе.';
+        return;
+      }
+      if (Math.cos(electronAngle - gateCenter) < gateLimit) {
+        dropMisses += 1;
+        dropCombo = 0;
+        updateDropConfig();
+        dropFeedback.textContent = 'Мимо! Нажимай, когда электрон и кнопка подсветятся.';
+        return;
+      }
+
+      dropState = 'falling';
+      cancelAnimationFrame(dropFrame);
+      setDropReady(false);
+      const landing = dropPosition(electronAngle, 22);
+      if (!dropMotion.matches) {
+        await dropDot.animate([dropPosition(electronAngle, 38), landing], {
+          duration: 320, easing: 'ease-in'
+        }).finished;
+      }
+      Object.assign(dropDot.style, landing);
+      transferred += 1;
+      dropCombo += 1;
+      const points = 100 * Math.min(dropCombo, 5);
+      dropPoints += points;
+      updateDropConfig();
+
+      if (transferred < requiredTransfers) {
+        startDropLap();
+        dropFeedback.textContent = `+${points} очков. Поймай второй электрон!`;
+        return;
+      }
+
+      dropState = 'complete';
+      dropDot.classList.add('is-landed');
+      const lastRound = dropIndex === dropRounds.length - 1;
+      dropFeedback.textContent = lastRound ? `Все конфигурации собраны. Итог: ${dropPoints} очков!` : `+${points} очков. Конфигурация собрана!`;
+      dropAction.textContent = lastRound ? 'Сыграть ещё раз' : 'Следующий элемент';
+      dropField.setAttribute('aria-label', dropAction.textContent);
+    }
+
+    for (const control of [dropField, dropAction]) {
+      let handledOnPress = false;
+      control.addEventListener('pointerdown', (event) => {
+        if (!event.isPrimary || event.button !== 0) return;
+        handledOnPress = dropState === 'spinning' || dropState === 'falling';
+        if (handledOnPress) playDrop();
+      });
+      control.addEventListener('click', (event) => {
+        if (event.detail > 0 && handledOnPress) return;
+        playDrop();
+      });
+      control.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        if (!event.repeat) playDrop();
+      });
+    }
+    showDropRound();
 
     const elementSearch = document.getElementById('element-search');
     const tableStatus = document.getElementById('table-status');

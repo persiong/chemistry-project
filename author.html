@@ -204,5 +204,17 @@
     </main>
     <footer class="bottom">CHEM // LAB · автор — Горшков Матвей · 2026</footer>
   </div>
+  <script>
+    // Keep links inside the same Moodle file resource when its path is in the query.
+    const resourceUrl = new URL(window.location.href);
+    const resourcePath = resourceUrl.searchParams.get('file');
+    if (resourceUrl.pathname.endsWith('/pluginfile.php') && resourcePath?.endsWith('/author.html')) {
+      resourceUrl.hash = '';
+      resourceUrl.searchParams.set('file', resourcePath.replace(/author\.html$/, 'chemistry.html'));
+      document.querySelector('.back').href = resourceUrl.href;
+      resourceUrl.searchParams.set('file', resourcePath.replace(/author\.html$/, 'assets/prod-winner.jpg'));
+      document.querySelector('.photo').src = resourceUrl.href;
+    }
+  </script>
 </body>
 </html>
